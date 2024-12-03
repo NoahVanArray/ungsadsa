@@ -209,7 +209,7 @@ public class LibraryWithNodes {
                         MoveForward(Exit); 
                     }
                     default -> {
-                        throw new IllegalStateException("Impossible to happen");
+                        throw new IllegalStateException("Impossible to happen"); //imagine if it did
                     }
                 }
                 
@@ -300,56 +300,89 @@ public class LibraryWithNodes {
         }
         private void SetCategories(Node Parent)
         {
-            Node cs = new Node("000", "000 Computer science, information and general works");
-            Node math = new Node("100", "100 Mathematics and natural sciences");
-            Node lit = new Node("200", "200 Literature");
-            Node history = new Node("300", "300 History and geography");
-            Node art = new Node("400", "400 Arts and recreation");
-            Node law = new Node("500", "500 Law and political science");
-            Node sci = new Node("600", "600 Technology");
-            Node med = new Node("700", "700 Medicine and health");
+            Node genWorks = new Node("000", "000 Computer science, knowledge, and systems");
+            Node philPsych = new Node("100", "100 Philosophy and psychology");
+            Node religion = new Node("200", "200 Religion");
+            Node socScie = new Node("300", "300 Social Sciences");
+            Node lang = new Node("400", "400 Language");
+            Node science = new Node("500", "500 Science");
+            Node tech = new Node("600", "600 Technology");
+            Node arts = new Node("700", "700 Arts and Recreation");
+            Node lit = new Node("800", "800 Literature");
+            Node histoGeo = new Node("900", "900 History and Geography");
             
-            Node programming = new Node("000.1", "Programming");
-            Node networking = new Node("000.2", "Networking");
-            cs.addNode(programming);
-            cs.addNode(networking);
+            Node bibliography = new Node("010", "Bibliography");
+            Node libraryAndInfoSciences = new Node("020", "Library and Information Sciences");
+            Node genEncyclopedicWorks = new Node("030", "General encyclopedic works");
+            genWorks.addNode(bibliography);
+            genWorks.addNode(libraryAndInfoSciences);
+            genWorks.addNode(genEncyclopedicWorks);
+            
+            Node programming = new Node("010.1", "Programming");
+            Node networking = new Node("010.2", "Networking");
+            genWorks.addNode(programming);
+            genWorks.addNode(networking);
+
+            Node metaphysics = new Node("110", "Metaphysics");
+            Node epistCausHumankind = new Node("120", "Epistemology, causation, and humankind");
+            Node paraOccult = new Node("130", "Parapsychology and occultism");
+            philPsych.addNode(bibliography);
+            philPsych.addNode(libraryAndInfoSciences);
+            philPsych.addNode(genEncyclopedicWorks);
 
             Node algebra = new Node("100.1", "Algebra");
             Node calculus = new Node("100.2", "Calculus");
-            math.addNode(algebra);
-            math.addNode(calculus);
+            philPsych.addNode(algebra);
+            philPsych.addNode(calculus);
+
+            Node philoTheo = new Node("210", "Philosophy and theory of religion");
+            Node Bible = new Node("220", "Bible");
+            Node Christianity = new Node("230", "Christianity");
+            religion.addNode(philoTheo);
+            religion.addNode(Bible);
+            religion.addNode(Christianity);
 
             Node fiction = new Node("200.1", "Fiction");
             Node poetry = new Node("200.2", "Poetry");
-            lit.addNode(fiction);
-            lit.addNode(poetry);
-
+            religion.addNode(fiction);
+            religion.addNode(poetry);
 
             Node ancient = new Node("300.1", "Ancient History");
             Node modern = new Node("300.2", "Modern History");
-            history.addNode(ancient);
-            history.addNode(modern);
+            socScie.addNode(ancient);
+            socScie.addNode(modern);
 
             Node visualArts = new Node("400.1", "Visual Arts");
             Node performingArts = new Node("400.2", "Performing Arts");
-            art.addNode(visualArts);
-            art.addNode(performingArts);
+            lang.addNode(visualArts);
+            lang.addNode(performingArts);
 
 
             Node criminalLaw = new Node("500.1", "Criminal Law");
             Node civilLaw = new Node("500.2", "Civil Law");
-            law.addNode(criminalLaw);
-            law.addNode(civilLaw);
+            science.addNode(criminalLaw);
+            science.addNode(civilLaw);
 
             Node programmingTech = new Node("600.1", "Programming Technology");
             Node hardware = new Node("600.2", "Hardware");
-            sci.addNode(programmingTech);
-            sci.addNode(hardware);
+            tech.addNode(programmingTech);
+            tech.addNode(hardware);
 
             Node surgery = new Node("700.1", "Surgery");
             Node generalMedicine = new Node("700.2", "General Medicine");
-            med.addNode(surgery);
-            med.addNode(generalMedicine);
+            arts.addNode(surgery);
+            arts.addNode(generalMedicine);
+
+            //values below
+            // Node lit1 = new Node("700.1", "Surgery");
+            // Node lit2 = new Node("700.2", "General Medicine");
+            // lit.addNode(lit1);
+            // lit.addNode(lit2);
+
+            // Node hg1 = new Node("700.1", "Surgery");
+            // Node hg2 = new Node("700.2", "General Medicine");
+            // histoGeo.addNode(hg1);
+            // histoGeo.addNode(hg2);
 
             Parent.addNode(cs);
             Parent.addNode(math);
