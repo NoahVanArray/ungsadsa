@@ -17,9 +17,10 @@ import java.util.Stack;
 public class LibraryWithNodes {
     
     public static void main(String[] args) {
-        
+        Scanner scan = new Scanner(System.in);
         Node root = new LibraryWithNodes.Node("Library", "Root");
         LibraryView libraryView = new LibraryView(root);
+
     }
 
     static class Node {
@@ -142,7 +143,7 @@ public class LibraryWithNodes {
 
         public LibraryView(Node root) {
             _curr = root;
-            System.out.println("Welcome to Library!!!");
+            System.out.print("\nWelcome to Library!!!\n");
             SetNodes();
         }
 
@@ -164,13 +165,8 @@ public class LibraryWithNodes {
             
         }
 
-        private void addBook() {
-            
-        }
-
-
-        private void browseBooks() {
-            }
+        // private void addBook() {   }             are we to remove these two? -yohan
+        // private void browseBooks() {   }
 
         private void SetHomeNode(Node homeNode, Node AddNewBook, Node BrowseBooks, Node Exit) {
             homeNode.addNode(AddNewBook);
@@ -179,7 +175,7 @@ public class LibraryWithNodes {
             _curr = homeNode;
             Consumer<Void> action = unused -> {
                 
-                System.out.println("Please select the corresponding actions");
+                System.out.println("\nPlease select among the corresponding actions:");
                 homeNode.readChildren();
                 int choice = 0;
                 System.out.print("Your Input: ");
@@ -292,12 +288,10 @@ public class LibraryWithNodes {
                 selected.setAction(childAction);
                 MoveForward(selected);
             };
-        
-            
-            
             AddBooks.setAction(action);
 //            MoveForward();
         }
+
         private void SetCategories(Node Parent)
         {
             Node genWorks = new Node("000", "000 Computer science, knowledge, and systems");
@@ -328,9 +322,9 @@ public class LibraryWithNodes {
             Node metaphysics = new Node("110", "Metaphysics");
             Node epistCausHumankind = new Node("120", "Epistemology, causation, and humankind");
             Node paraOccult = new Node("130", "Parapsychology and occultism");
-            philPsych.addNode(bibliography);
-            philPsych.addNode(libraryAndInfoSciences);
-            philPsych.addNode(genEncyclopedicWorks);
+            philPsych.addNode(metaphysics);
+            philPsych.addNode(epistCausHumankind);
+            philPsych.addNode(paraOccult);
 
             Node space = new Node("100.1", "Space");
             Node time = new Node("100.2", "Time");
@@ -367,9 +361,9 @@ public class LibraryWithNodes {
             Node linguistics = new Node("410", "Linguistics");
             Node engOldEng = new Node("420", "English and Old English Languages");
             Node german = new Node("430", "German and other related languages");
-            lang.addNode(statistics);
-            lang.addNode(polScie);
-            lang.addNode(economics);
+            lang.addNode(linguistics);
+            lang.addNode(engOldEng);
+            lang.addNode(german);
 
             Node morphology = new Node("400.1", "Morphology");
             Node syntax = new Node("400.2", "Syntax");
@@ -390,12 +384,12 @@ public class LibraryWithNodes {
             science.addNode(calculus);
 
             //CLASS 600
-            Node mathematics = new Node("610", "Medicine and health");
-            Node astronomy = new Node("620", "Engineering");
-            Node physics = new Node("630", "Agriculture");
-            tech.addNode(mathematics);
-            tech.addNode(astronomy);
-            tech.addNode(physics);
+            Node medHealth = new Node("610", "Medicine and health");
+            Node engineering = new Node("620", "Engineering");
+            Node agriculture = new Node("630", "Agriculture");
+            tech.addNode(medHealth);
+            tech.addNode(engineering);
+            tech.addNode(agriculture);
 
             Node internet = new Node("600.1", "Internet");
             Node trends = new Node("600.2", "Trends");
@@ -454,9 +448,70 @@ public class LibraryWithNodes {
             Parent.addNode(histoGeo);
         }
 
-        private void SetBrowseBooks(Node BrowseBooks){
+        private void SetBrowseBooks(Node BrowseBooks) {
+            Node CategorySelection = BrowseBooks.getChildren().get(0); // Assuming categories are already set as children of this node.
+            var categories = CategorySelection.getChildren();
             
+            Consumer<Void> action = unused -> {
+                while (true) {
+                    System.out.println("Select a category to browse books:");
+                    System.out.println("\t[0] Cancel and go back to Home");
+                    CategorySelection.readChildren();
+                    System.out.print("Your Input: ");
+                    
+                    String input = scanner.nextLine();
+                    int choice;
+                    try {
+                        choice = Integer.parseInt(input);
+                        if (choice < 0 || choice > categories.size()) {
+                            throw new IllegalArgumentException("Invalid choice. Please try again.");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage() + '\n');
+                        continue;
+                    }
+                    
+                    if (choice == 0) {
+                        MoveBackward(); // Go back to Home
+                        return;
+                    }
+                    
+                    Node selectedCategory = categories.get(choice - 1);
+                    browseBooksInCategory(selectedCategory);
+                }
+            };
+            
+            BrowseBooks.setAction(action);
         }
+        
+        private void browseBooksInCategory(Node category) {
+            while (true) {
+                System.out.println("\nYou are in category: " + category.getName());
+                System.out.println("\t[0] Cancel and go back to previous menu");
+                category.readChildren();
+                System.out.print("Your Input: ");
+                
+                String input = scanner.nextLine();
+                int choice;
+                try {
+                    choice = Integer.parseInt(input);
+                    if (choice < 0 || choice > category.getChildren().size()) {
+                        throw new IllegalArgumentException("Invalid choice. Please try again.");
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage() + '\n');
+                    continue;
+                }
+                
+                if (choice == 0) {
+                    return; // Go back to previous menu
+                }
+                
+                Node selectedBook = category.getChildren().get(choice - 1);
+                bookOptions(selectedBook);
+            }
+        }
+        
         private void SetExit(Node Exit){
             Exit.setAction(unused -> { 
                 System.out.println("Goodbye!!!");
